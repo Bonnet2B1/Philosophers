@@ -6,20 +6,20 @@
 #    By: edelarbr <edelarbr@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/22 16:59:43 by edelarbr          #+#    #+#              #
-#    Updated: 2023/07/22 17:14:58 by edelarbr         ###   ########.fr        #
+#    Updated: 2023/07/25 17:21:58 by edelarbr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		:=	philo
 
-NAME_BONUS	:=	pipex_bonus
+# NAME_BONUS	:=	pipex_bonus
 
 # ------------------------------ Sources -----------------------------
 
 SRCS :=			srcs/*.c\
 
 OBJS		:=	$(SRCS:.c=.o)
-OBJS_BONUS	:=	$(SRCS_BONUS:.c=.o)
+# OBJS_BONUS	:=	$(SRCS_BONUS:.c=.o)
 
 .c.o:
 	@ $(CC) $(FLAGS) -c $< -o $(<:.c=.o)
@@ -27,7 +27,7 @@ OBJS_BONUS	:=	$(SRCS_BONUS:.c=.o)
 # ------------------------------ Flags -------------------------------
 
 CC			:=	gcc
-FLAGS		:=	-Wall -Wextra -Werror
+FLAGS		:=	-Wall -Wextra -Werror -g3 -fsainitize=address fsanitize=thread
 
 # ------------------------------ Colors ------------------------------
 
@@ -45,28 +45,30 @@ CYAN 		:=	\033[1;36m
 
 all:			$(NAME)
 
-bonus:			$(NAME_BONUS)
+# bonus:			$(NAME_BONUS)
 
 $(NAME):		$(OBJS)
 				@ echo "$(GREEN)Compilation $(CLR_RMV)of $(YELLOW)$(NAME) $(CLR_RMV)..."
 				@ $(CC) $(FLAGS) -o $(NAME) $(OBJS)
 				@ echo "$(GREEN)$(NAME) created $(CLR_RMV)✔️"
 
-$(NAME_BONUS):	$(OBJS_BONUS)
-				@ echo "$(GREEN)Compilation $(CLR_RMV)of $(YELLOW)$(NAME_BONUS) $(CLR_RMV)..."
-				@ $(CC) $(FLAGS) -o $(NAME_BONUS) $(OBJS_BONUS)
-				@ echo "$(GREEN)$(NAME_BONUS) created $(CLR_RMV)✔️"
+# $(NAME_BONUS):	$(OBJS_BONUS)
+# 				@ echo "$(GREEN)Compilation $(CLR_RMV)of $(YELLOW)$(NAME_BONUS) $(CLR_RMV)..."
+# 				@ $(CC) $(FLAGS) -o $(NAME_BONUS) $(OBJS_BONUS)
+# 				@ echo "$(GREEN)$(NAME_BONUS) created $(CLR_RMV)✔️"
 
 
 # --  ---------------------------- Rules -----------------------------
 
 clean:
-				@ $(RM) $(OBJS) $(OBJS_BONUS)
-				@ echo "$(RED)Deleting $(CYAN)$(NAME) $(CLR_RMV)and $(CYAN)$(NAME_BONUS) $(CLR_RMV)objs ✔️"
+				@ $(RM) $(OBJS)
+				@ echo "$(RED)Deleting $(CYAN)$(NAME) $(CLR_RMV)objs ✔️"
+				@ echo "$(RED)Deleting $(CYAN)$(NAME_BONUS) $(CLR_RMV)objs ✔️"
 
 fclean:			clean
-				@ $(RM) $(NAME) $(RM) $(NAME_BONUS)
-				@ echo "$(RED)Deleting $(CYAN)$(NAME) $(CLR_RMV)and $(CYAN)$(NAME_BONUS) $(CLR_RMV)binary ✔️"
+				@ $(RM) $(NAME) $(RM)
+				@ echo "$(RED)Deleting $(CYAN)$(NAME) $(CLR_RMV)binary ✔️"
+				@ echo "$(RED)Deleting $(CYAN)$(NAME_BONUS) $(CLR_RMV)binary ✔️"
 
 re:				fclean all
 

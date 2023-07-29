@@ -1,24 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo.c                                            :+:      :+:    :+:   */
+/*   ft_putstr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: edelarbr <edelarbr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/22 16:59:12 by edelarbr          #+#    #+#             */
-/*   Updated: 2023/07/29 16:38:56 by edelarbr         ###   ########.fr       */
+/*   Created: 2022/07/25 14:37:51 by edelarbr          #+#    #+#             */
+/*   Updated: 2023/07/29 16:47:30 by edelarbr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "../philo.h"
 
-int	main(int argc, char **argv)
+void	ft_putstr(char *str)
 {
-	t_philo	*p;
+	int	i;
 
-	p = malloc(sizeof(t_philo))
-	if (!p)
-		return (0);
-	p = parser(argc, argv);
-	
+	if (!str)
+		return ;
+	i = -1;
+	while (str[++i])
+		write (1, &str[i], 1);
 }
