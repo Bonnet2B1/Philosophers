@@ -6,7 +6,7 @@
 /*   By: edelarbr <edelarbr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 16:59:07 by edelarbr          #+#    #+#             */
-/*   Updated: 2023/07/28 13:18:54 by edelarbr         ###   ########.fr       */
+/*   Updated: 2023/07/30 15:55:07 by edelarbr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,18 +16,30 @@
 # include <pthread.h>
 # include <stdio.h>
 # include <stdlib.h>
-# include <unistd.h>
 # include <sys/time.h>
+# include <unistd.h>
 
 typedef struct s_philo
 {
-	int philo
-	int ttd
-	int tte
-	int tts
-	int meal
-}					t_philo;
+	int			nb_philo;
+	int			ttd;
+	int			tte;
+	int			tts;
+	size_t		meal;
+	pthread_t	*philo;
+	int			philo_id;
+	int			*chopsticks;
+}				t_philo;
 
-void	parser(int argc, char **argv);
+int				main(int argc, char **argv);
+t_philo			*parser(int argc, char **argv);
+
+/* utils */
+void			ft_putstr(char *str);
+void			ft_freeall(t_philo *p);
+void			ft_exit(t_philo *p, char *str);
+int				ft_atoi(char *str, int *atoi_error);
+int				ft_strlen(char *str);
+int				ft_isdigit(int c);
 
 #endif

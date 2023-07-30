@@ -1,20 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_exit.c                                          :+:      :+:    :+:   */
+/*   ft_isdigit.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: edelarbr <edelarbr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/29 16:47:33 by edelarbr          #+#    #+#             */
-/*   Updated: 2023/07/30 15:19:51 by edelarbr         ###   ########.fr       */
+/*   Created: 2016/04/18 10:30:17 by ggane             #+#    #+#             */
+/*   Updated: 2023/07/29 17:56:05 by edelarbr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo.h"
 
-void	ft_exit(t_philo *p, char *str)
+int	ft_isdigit(int c)
 {
-	ft_putstr(str);
-	ft_freeall(p);
-	exit(0);
+	if (c >= '0' && c <= '9')
+		return (1);
+	return (0);
 }

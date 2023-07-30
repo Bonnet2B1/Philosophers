@@ -1,20 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_exit.c                                          :+:      :+:    :+:   */
+/*   ft_freeall.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: edelarbr <edelarbr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/29 16:47:33 by edelarbr          #+#    #+#             */
-/*   Updated: 2023/07/30 15:19:51 by edelarbr         ###   ########.fr       */
+/*   Created: 2023/07/29 16:50:22 by edelarbr          #+#    #+#             */
+/*   Updated: 2023/07/30 15:19:45 by edelarbr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo.h"
 
-void	ft_exit(t_philo *p, char *str)
+void	ft_freeall(t_philo *p)
 {
-	ft_putstr(str);
-	ft_freeall(p);
-	exit(0);
+	if (!p)
+		return ;
+	free(p);
 }
