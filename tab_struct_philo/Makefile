@@ -6,7 +6,7 @@
 #    By: edelarbr <edelarbr@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/22 16:59:43 by edelarbr          #+#    #+#              #
-#    Updated: 2023/08/02 00:57:05 by edelarbr         ###   ########.fr        #
+#    Updated: 2023/07/29 17:19:08 by edelarbr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ NAME		:=	philo
 # ------------------------------ Sources -----------------------------
 
 SRCS 		:=	srcs/*.c\
-				srcs/*/*.c
+				srcs/utils/*.c
 
 OBJS		:=	$(SRCS:.c=.o)
 
@@ -27,7 +27,7 @@ OBJS		:=	$(SRCS:.c=.o)
 # ------------------------------ Flags -------------------------------
 
 CC			:=	gcc
-FLAGS		:=	-Wall -Wextra -Werror -g3 -fsanitize=thread
+FLAGS		:=	-Wall -Wextra -Werror -g3 -fsanitize=address
 
 # ------------------------------ Colors ------------------------------
 

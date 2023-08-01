@@ -6,104 +6,47 @@
 /*   By: edelarbr <edelarbr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 17:27:23 by edelarbr          #+#    #+#             */
-/*   Updated: 2023/07/30 16:27:26 by edelarbr         ###   ########.fr       */
+/*   Updated: 2023/08/01 19:44:13 by edelarbr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-// static void	assignations(t_philo *p, int argc, char **argv)
-// {
-// 	int	atoi_error;
-
-// 	atoi_error = 0;
-// 	p->nb_philo = ft_atoi(argv[1], &atoi_error);
-// 	if (atoi_error == 1)
-// 		ft_exit(p, "Error : Number_of_philosophers invalid argument\n");
-// 	p->ttd = ft_atoi(argv[2], &atoi_error);
-// 	if (atoi_error == 1)
-// 		ft_exit(p, "Error : Time_to_die invalid argument\n");
-// 	p->tte = ft_atoi(argv[3], &atoi_error);
-// 	if (atoi_error == 1)
-// 		ft_exit(p, "Error : Time_to_eat invalid argument\n");
-// 	p->tts = ft_atoi(argv[4], &atoi_error);
-// 	if (atoi_error == 1)
-// 		ft_exit(p, "Error : Time_to_sleep invalid argument\n");
-// 	if (argc == 6)
-// 		p->meal = ft_atoi(argv[5], &atoi_error);
-// 	else
-// 		p->meal = -1;
-// }
-
-// t_philo	*parser(int argc, char **argv)
-// {
-// 	t_philo	*p;
-// 	int		i;
-
-// 	if (argc < 5 || argc > 6)
-// 		ft_exit(NULL, "Error : Wrong number of arguments\n");
-// 	p = malloc(sizeof(t_philo));
-// 	if (!p)
-// 		ft_exit(p, "Error : Malloc failed\n");
-// 	assignations(p, argc, argv);
-// 	if (p->nb_philo > 100)
-// 		ft_exit(p, "Error : Number_of_philosophers too high\n");
-// 	p->philo = malloc(sizeof(pthread_t) * p->nb_philo);
-// 	p->chopsticks = malloc(sizeof(int) * p->nb_philo);
-// 	if (!p->philo || !p->chopsticks)
-// 		ft_exit(p, "Error : Malloc failed\n");
-// 	i = -1;
-// 	while (++i < p->nb_philo)
-// 		p->chopsticks[i] = 1;
-// 	return (p);
-// }
-
-static void	assignations(t_philo *p, int argc, char **argv)
+int	assignations(t_general_memory *g, int argc, char **argv)
 {
 	int	atoi_error;
 
 	atoi_error = 0;
-	p->nb_philo = ft_atoi(argv[1], &atoi_error);
+	g->nb_philo = ft_atoi(argv[1], &atoi_error);
+	if (atoi_error == 1 || g->nb_philo < 1 || g->nb_philo > 100)
+		return (printf("Error : Number_of_philosophers invalid argument\n"), 0);
+	g->ttd = ft_atoi(argv[2], &atoi_error);
 	if (atoi_error == 1)
-		ft_exit(p, "Error : Number_of_philosophers invalid argument\n");
-	p->ttd = ft_atoi(argv[2], &atoi_error);
+		return (printf("Error : Time_to_die invalid argument\n"), 0);
+	g->tte = ft_atoi(argv[3], &atoi_error);
 	if (atoi_error == 1)
-		ft_exit(p, "Error : Time_to_die invalid argument\n");
-	p->tte = ft_atoi(argv[3], &atoi_error);
+		return (printf("Error : Time_to_eat invalid argument\n"), 0);
+	g->tts = ft_atoi(argv[4], &atoi_error);
 	if (atoi_error == 1)
-		ft_exit(p, "Error : Time_to_eat invalid argument\n");
-	p->tts = ft_atoi(argv[4], &atoi_error);
-	if (atoi_error == 1)
-		ft_exit(p, "Error : Time_to_sleep invalid argument\n");
+		return (printf("Error : Time_to_sleep invalid argument\n"), 0);
 	if (argc == 6)
-		p->meal = ft_atoi(argv[5], &atoi_error);
+	{
+		g->min_meal = ft_atoi(argv[5], &atoi_error);
+		if (atoi_error == 1)
+			return (printf("Error : Number_of_times_each_philosopher_must_eat invalid argument\n"), 0);
+	}
 	else
-		p->meal = -1;
+		g->min_meal = -1;
+	return (1);
 }
 
-t_philo	*parser(int argc, char **argv)
+int	parser(t_general_memory *g, int argc, char **argv)
 {
-	t_philo	*p;
-	int		i;
-
 	if (argc < 5 || argc > 6)
-		ft_exit(NULL, "Error : Wrong number of arguments\n");
-	
-	p = malloc(sizeof(t_philo));
-	if (!p)
-		ft_exit(p, "Error : Malloc failed\n");
-	
-	assignations(p, argc, argv);
-	
-	if (p->nb_philo > 100)
-		ft_exit(p, "Error : Number_of_philosophers too high\n");
-	p->philo = malloc(sizeof(pthread_t) * p->nb_philo);
-	p->chopsticks = malloc(sizeof(int) * p->nb_philo);
-	if (!p->philo || !p->chopsticks)
-		ft_exit(p, "Error : Malloc failed\n");
-	i = -1;
-	while (++i < p->nb_philo)
-		p->chopsticks[i] = 1;
-
-	return (p);
+		return (printf("Error : Wrong number of arguments\n"), 0);
+	if (!assignations(g, argc, argv))
+		return (0);
+	if (g->nb_philo > 100)
+		return (printf("Error : Number_of_philosophers too high\n"), 0);
+	return (1);
 }
