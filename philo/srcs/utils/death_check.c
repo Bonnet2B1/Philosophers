@@ -6,7 +6,7 @@
 /*   By: edelarbr <edelarbr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 17:20:58 by edelarbr          #+#    #+#             */
-/*   Updated: 2023/08/02 00:58:00 by edelarbr         ###   ########.fr       */
+/*   Updated: 2023/08/03 18:55:32 by edelarbr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,7 @@
 
 void m_i_dead(t_personnal_memory *p)
 {
-	if (p->last_meal >= p->g->ttd)
-	{
-		p->dead = 1;
-		print_message("died", p);
-	}
-}
-
-int	a_philosopher_is_dead(t_general_memory *g)
-{
-	int	i;
-
-	i = -1;
-	while (++i < g->nb_philo)
-		if (g->p[i].dead == 1)
-			return (1);
-	return (0);
+	pthread_mutex_lock(&p->g->print_mutex);
+	if (!(p->last_meal- p->g->start_time >= p->g->ttd))
+		pthread_mutex_unlock(&p->g->print_mutex);
 }

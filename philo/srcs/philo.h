@@ -6,7 +6,7 @@
 /*   By: edelarbr <edelarbr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 16:59:07 by edelarbr          #+#    #+#             */
-/*   Updated: 2023/08/02 01:10:49 by edelarbr         ###   ########.fr       */
+/*   Updated: 2023/08/03 19:58:02 by edelarbr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,8 @@ typedef struct s_general_memory
 	int							start_time;
 	// mutexs
 	pthread_mutex_t				print_mutex;
-	pthread_mutex_t				right_fork_mutex;
-	pthread_mutex_t				left_fork_mutex;
-	pthread_mutex_t				mutex;
+	pthread_mutex_t				fork_mutex;
+	pthread_mutex_t				time_mutex;
 	// link to all philosopher personnal memory
 	struct s_personnal_memory	*p;
 }								t_general_memory;
@@ -50,8 +49,6 @@ typedef struct s_personnal_memory
 	pthread_t					thread;
 	// philosopher id
 	int							id;
-	// philosopher dead flag
-	int							dead;
 	// philosopher meal counter
 	int							meal;
 	// philosopher last meal time
@@ -68,13 +65,13 @@ int								parser(t_general_memory *g, int argc,
 
 /* lib */
 void							ft_putstr(char *str);
-void							ft_freeall(t_general_memory *g);
+void							*ft_freeall(t_general_memory *g);
 int								ft_atoi(char *str, int *atoi_error);
 int								ft_strlen(char *str);
 int								ft_isdigit(int c);
 
 /* utils*/
-int								a_philosopher_is_dead(t_general_memory *g);
+int								a_philosopher_is_dead(t_personnal_memory *p);
 int								all_philosophers_ate_enough(t_general_memory *g);
 int								structs_init(t_general_memory *g);
 int								get_time(void);
@@ -83,5 +80,8 @@ int								ft_usleep(long int time_in_ms);
 void							philo_eat(t_personnal_memory *p);
 void							philo_sleep_n_think(t_personnal_memory *p);
 void							m_i_dead(t_personnal_memory *p);
+int								begin_monitoring(t_general_memory *g);
+int								begin_routine(t_general_memory *g);
+int								terminate_simulation(t_general_memory *g);
 
 #endif
