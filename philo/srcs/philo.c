@@ -6,7 +6,7 @@
 /*   By: edelarbr <edelarbr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 16:59:12 by edelarbr          #+#    #+#             */
-/*   Updated: 2023/08/03 19:55:56 by edelarbr         ###   ########.fr       */
+/*   Updated: 2023/08/07 18:28:19 by edelarbr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,13 @@
 
 int	main(int argc, char **argv)
 {
-	t_general_memory g;
+	t_general_memory general;
 
-	if (!parser(&g, argc, argv) ||
-		!structs_init(&g) ||
-		!begin_monitoring(&g) ||
-		!begin_routine(&g) ||
-		!terminate_simulation(&g))
-		return (ft_freeall(&g), 0);
+	if (!parser(&general, argc, argv) ||
+		!structs_init(&general) ||
+		!begin_monitoring(&general) ||
+		!begin_routine(&general) ||
+		!terminate_simulation(&general))
+		return (ft_freeall(&general), 0);
 	return (0);
 }

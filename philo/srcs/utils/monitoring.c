@@ -6,7 +6,7 @@
 /*   By: edelarbr <edelarbr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 16:36:47 by edelarbr          #+#    #+#             */
-/*   Updated: 2023/08/03 20:01:01 by edelarbr         ###   ########.fr       */
+/*   Updated: 2023/08/06 19:17:57 by edelarbr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,49 +14,48 @@
 
 /*
 le temps qui s'est écoulé depuis le dernier repas
-get_time() - g->start_time - last_meal
+get_time() - general->start_time - last_meal
 
- get_time			  start		   l_meal  mtn
-	|					|             |     |
+ get_time				start		   l_meal  mtn
+	|					|           	  |     |
 */
 
-int a_philosopher_is_dead(t_personnal_memory *p)
+int	a_philosopher_is_dead(t_personnal_memory *philo)
 {
-	pthread_mutex_lock(&p->g->time_mutex);
-	if (get_time() - p->g->start_time - p->last_meal >= p->g->tts)
+	if (philo->last_meal - philo_age(philo) >= philo->general->tts)
 	{
-		print_message("died", p);
-		pthread_mutex_lock(&p->g->print_mutex);
-		pthread_mutex_unlock(&p->g->time_mutex);
+		print_message("died", philo);
+		pthread_mutex_lock(&philo->general->print_mutex);
 		return (1);
 	}
-	pthread_mutex_unlock(&p->g->time_mutex);
 	return (0);
 }
 
-int all_philosophers_ate_enough(t_general_memory *g)
+int	all_philosophers_ate_enough(t_general_memory *general)
 {
-	int i;
+	int	i;
 
 	i = -1;
-	while (++i < g->nb_philo)
-		if (g->p[i].meal < g->min_meal)
+	while (++i < general->nb_philo)
+		if (general->philo[i].meal < general->min_meal)
 			return (0);
-	pthread_mutex_lock(&g->print_mutex);
-	return (1);
+	return (pthread_mutex_lock(&general->print_mutex), 1);
 }
 
-void *monitoring(t_general_memory *g)
+void	*monitoring(t_general_memory *general)
 {
-	int i;
-	while(g->stop == 0)
+	int	i;
+	while (general->start_time == -1)
+		;
+	while (1)
 	{
 		i = -1;
-		while (++i < g->nb_philo && g->stop == 0)
+		while (++i < general->nb_philo)
 		{
-			if (a_philosopher_is_dead(&g->p[i]) || all_philosophers_ate_enough(g))
+			if (a_philosopher_is_dead(&general->philo[i])
+				|| all_philosophers_ate_enough(general))
 			{
-				g->stop = 1;
+				general->stop = 1;
 				return (NULL);
 			}
 		}
@@ -64,12 +63,9 @@ void *monitoring(t_general_memory *g)
 	return (NULL);
 }
 
-int	begin_monitoring(t_general_memory *g)
+int	begin_monitoring(t_general_memory *general)
 {
-	pthread_mutex_init(&g->print_mutex, NULL);
-	pthread_mutex_init(&g->fork_mutex, NULL);
-	pthread_mutex_init(&g->time_mutex, NULL);
-	if (pthread_create(&g->monitoring_thread, NULL, (void *)monitoring, g) != 0)
+	if (pthread_create(&general->monitoring_thread, NULL, (void *)monitoring, general) != 0)
 		return (printf("Error: pthread_create failed\n"), 0);
 	return (1);
 }

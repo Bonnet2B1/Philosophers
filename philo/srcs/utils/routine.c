@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   routine.c                                          :+:      :+:    :+:   */
+/*   routie.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: edelarbr <edelarbr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 16:35:31 by edelarbr          #+#    #+#             */
-/*   Updated: 2023/08/03 20:05:06 by edelarbr         ###   ########.fr       */
+/*   Updated: 2023/08/06 17:56:38 by edelarbr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,44 +14,29 @@
 
 void	*routine(void *arg)
 {
-	t_personnal_memory	*p;
+	t_personnal_memory	*philo;
 
-	p = (t_personnal_memory *)arg;
-	pthread_mutex_lock(&p->g->time_mutex);
-	if (p->g->start_time == -1)
-		p->g->start_time = get_time();
-	pthread_mutex_unlock(&p->g->time_mutex);
-	// if (p->g->nb_philo == 1)
-	// {
-	// 	print_message("has taken a fork", p);
-	// 	ft_usleep(p->g->ttd);
-	// 	return (NULL);
-	// }
-	
-	// test
-	pthread_mutex_lock(&p->g->print_mutex);
-	printf("Philosopher %d : left fork %p, right fork %p\n", p->id, p->left_fork, p->right_fork);
-	pthread_mutex_unlock(&p->g->print_mutex);
-	return (NULL);
-	// fin du test
-
-	if (p->id % 2 == 0)
-		ft_usleep(2);
+	philo = (t_personnal_memory *)arg;
+	if (philo->id % 2 != 0)
+		ft_usleep(philo->general->tte / 2);
 	while (1)
 	{
-		philo_eat(p);
-		philo_sleep_n_think(p);
+		philo_take_forks(philo);
+		philo_eat(philo);
+		philo_sleep_n_think(philo);
 	}
 	return (NULL);
 }
 
-int	begin_routine(t_general_memory *g)
+int	begin_routine(t_general_memory *general)
 {
 	int	i;
 
 	i = -1;
-	while (++i < g->nb_philo)
-		if (pthread_create(&g->p[i].thread, NULL, (void *)routine, &g->p[i]) != 0)
+	general->start_time = get_time();
+	while (++i < general->nb_philo)
+		if (pthread_create(&general->philo[i].thread, NULL, (void *)routine,
+				&general->philo[i]) != 0)
 			return (printf("Error: pthread_create failed\n"), 0);
 	return (1);
 }

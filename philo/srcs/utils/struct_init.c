@@ -6,64 +6,65 @@
 /*   By: edelarbr <edelarbr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 17:26:28 by edelarbr          #+#    #+#             */
-/*   Updated: 2023/08/03 20:03:17 by edelarbr         ###   ########.fr       */
+/*   Updated: 2023/08/06 19:18:24 by edelarbr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo.h"
 
-int	general_memory_init(t_general_memory *g)
+int	general_memory_init(t_general_memory *general)
 {
 	int	i;
 
-	g->forks = malloc(sizeof(int) * g->nb_philo);
-	if (!g->forks)
+	pthread_mutex_init(&general->print_mutex, NULL);
+	pthread_mutex_init(&general->operation_mutex, NULL);
+	general->forks = malloc(sizeof(pthread_mutex_t) * general->nb_philo);
+	if (!general->forks)
 		return (printf("Error : Malloc failed\n"), 0);
-	i = -1;
-	while (++i < g->nb_philo)
-		g->forks[i] = 1;
+	i = - 1;
+	while (++i < general->nb_philo)
+		pthread_mutex_init(&general->forks[i], NULL);
+	// i = -1;
+	// while (++i < general->nb_philo)
+	// 	general->forks[i] = 1;
 
-	for (i = 0; i < g->nb_philo; i++)
-		printf("forks[%d] = %p\n", i + 1, &g->forks[i]);	
+	// for (i = 0; i < general->nb_philo; i++)
+	// 	printf("forks[%d] = %philo\n", i + 1, &general->forks[i]);	
 
-	g->stop = 0;
+	general->stop = 0;
 	return (1);
 }
 
-int	personnal_memory_init(t_general_memory *g, t_personnal_memory *p, int i)
+int	personnal_memory_init(t_general_memory *general, t_personnal_memory *philo, int i)
 {
-	p->id = i + 1;
-	p->g = g;
-	p->meal = 0;
-	p->last_meal = 0;
-	if (p->id != g->nb_philo)
+	philo->id = i + 1;
+	philo->general = general;
+	philo->meal = 0;
+	philo->last_meal = 0;
+	if (general->nb_philo == 1)
+		philo->left_fork = &general->forks[i];
+	else
 	{
-		p->left_fork = &g->forks[i];
-		p->right_fork = &g->forks[i + 1];
+		philo->left_fork = &general->forks[i];
+		philo->right_fork = &general->forks[(i + 1) % general->nb_philo];
 	}
-	else if (p->id == g->nb_philo)
-	{
-		p->left_fork = &g->forks[i];
-		p->right_fork = &g->forks[0];
-	}
-	printf("Philosopher %d : left fork %p, right fork %p\n", p->id, p->left_fork, p->right_fork);
 	return (1);
 }
 
-int	structs_init(t_general_memory *g)
+int	structs_init(t_general_memory *general)
 {
 	int i;
 
-	i = -1;
-	g->start_time = -1;
-	if (!general_memory_init(g))
+	general->start_time = -1;
+	if (!general_memory_init(general))
 		return (0);
-	g->p = malloc(sizeof(t_personnal_memory) * g->nb_philo);
-	if (!g->p)
+	general->philo = malloc(sizeof(t_personnal_memory) * general->nb_philo);
+	if (!general->philo)
 		return (printf("Error: malloc failed\n"), 0);
-	while (++i < g->nb_philo)
+	i = -1;
+	while (++i < general->nb_philo)
 	{
-		if (!personnal_memory_init(g, &g->p[i], i))
+		if (!personnal_memory_init(general, &general->philo[i], i))
 			return (0);
 	}
 	return (1);
