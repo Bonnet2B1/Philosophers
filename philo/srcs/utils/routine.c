@@ -6,7 +6,7 @@
 /*   By: edelarbr <edelarbr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 19:24:38 by edelarbr          #+#    #+#             */
-/*   Updated: 2023/08/07 19:26:17 by edelarbr         ###   ########.fr       */
+/*   Updated: 2023/08/07 20:07:21 by edelarbr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 void	*routine(void *arg)
 {
-	t_personnal_memory	*philo;
+	t_personnal	*philo;
 
-	philo = (t_personnal_memory *)arg;
+	philo = (t_personnal *)arg;
 	if (philo->id % 2 != 0)
 		ft_usleep(philo->general->time_to_eat / 2);
 	while (1)
@@ -28,7 +28,7 @@ void	*routine(void *arg)
 	return (NULL);
 }
 
-int	begin_routine(t_general_memory *general)
+int	begin_routine(t_general *general)
 {
 	int	i;
 

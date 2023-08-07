@@ -6,13 +6,13 @@
 /*   By: edelarbr <edelarbr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 17:27:23 by edelarbr          #+#    #+#             */
-/*   Updated: 2023/08/07 19:33:04 by edelarbr         ###   ########.fr       */
+/*   Updated: 2023/08/07 20:06:48 by edelarbr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	assignations(t_general_memory *general, int argc, char **argv)
+int	assignations(t_general *general, int argc, char **argv)
 {
 	int	atoi_error;
 
@@ -40,7 +40,7 @@ int	assignations(t_general_memory *general, int argc, char **argv)
 	return (1);
 }
 
-int	parser(t_general_memory *general, int argc, char **argv)
+int	parser(t_general *general, int argc, char **argv)
 {
 	if (argc < 5 || argc > 6)
 		return (printf("Error : Wrong number of arguments\n"), 0);

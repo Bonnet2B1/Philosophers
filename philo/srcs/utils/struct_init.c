@@ -6,13 +6,13 @@
 /*   By: edelarbr <edelarbr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 17:26:28 by edelarbr          #+#    #+#             */
-/*   Updated: 2023/08/07 19:29:28 by edelarbr         ###   ########.fr       */
+/*   Updated: 2023/08/07 20:07:43 by edelarbr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo.h"
 
-int	general_memory_init(t_general_memory *general)
+int	general_memory_init(t_general *general)
 {
 	int	i;
 
@@ -28,12 +28,12 @@ int	general_memory_init(t_general_memory *general)
 	return (1);
 }
 
-int	personnal_memory_init(t_general_memory *general, t_personnal_memory *philo,
+int	personnal_memory_init(t_general *general, t_personnal *philo,
 		int i)
 {
 	philo->id = i + 1;
 	philo->general = general;
-	philo->meal = 0;
+	philo->meal_counter = 0;
 	philo->last_meal = 0;
 	if (general->nb_philo == 1)
 		philo->left_fork = &general->forks[i];
@@ -45,14 +45,14 @@ int	personnal_memory_init(t_general_memory *general, t_personnal_memory *philo,
 	return (1);
 }
 
-int	structs_init(t_general_memory *general)
+int	structs_init(t_general *general)
 {
 	int	i;
 
 	general->start_time = -1;
 	if (!general_memory_init(general))
 		return (0);
-	general->philo = malloc(sizeof(t_personnal_memory) * general->nb_philo);
+	general->philo = malloc(sizeof(t_personnal) * general->nb_philo);
 	if (!general->philo)
 		return (printf("Error: malloc failed\n"), 0);
 	i = -1;

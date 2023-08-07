@@ -6,13 +6,13 @@
 /*   By: edelarbr <edelarbr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 18:43:58 by edelarbr          #+#    #+#             */
-/*   Updated: 2023/08/07 19:23:15 by edelarbr         ###   ########.fr       */
+/*   Updated: 2023/08/07 20:06:48 by edelarbr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo.h"
 
-int	terminate_simulation(t_general_memory *general)
+int	terminate_simulation(t_general *general)
 {
 	int	i;
 

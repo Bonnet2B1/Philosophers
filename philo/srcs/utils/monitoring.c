@@ -6,7 +6,7 @@
 /*   By: edelarbr <edelarbr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 16:36:47 by edelarbr          #+#    #+#             */
-/*   Updated: 2023/08/07 19:27:51 by edelarbr         ###   ########.fr       */
+/*   Updated: 2023/08/07 20:07:21 by edelarbr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ get_time() - general->start_time - last_meal
 	|					|           		|     |
 */
 
-int	a_philosopher_is_dead(t_personnal_memory *philo)
+int	a_philosopher_is_dead(t_personnal *philo)
 {
 	if (philo->last_meal - philo_age(philo) >= philo->general->time_to_sleep)
 	{
@@ -31,18 +31,18 @@ int	a_philosopher_is_dead(t_personnal_memory *philo)
 	return (0);
 }
 
-int	all_philosophers_ate_enough(t_general_memory *general)
+int	all_philosophers_ate_enough(t_general *general)
 {
 	int	i;
 
 	i = -1;
 	while (++i < general->nb_philo)
-		if (general->philo[i].meal < general->min_meal)
+		if (general->philo[i].meal_counter < general->min_meal)
 			return (0);
 	return (pthread_mutex_lock(&general->print_mutex), 1);
 }
 
-void	*monitoring(t_general_memory *general)
+void	*monitoring(t_general *general)
 {
 	int	i;
 
@@ -64,7 +64,7 @@ void	*monitoring(t_general_memory *general)
 	return (NULL);
 }
 
-int	begin_monitoring(t_general_memory *general)
+int	begin_monitoring(t_general *general)
 {
 	if (pthread_create(&general->monitoring_thread, NULL, (void *)monitoring,
 			general) != 0)
