@@ -6,7 +6,7 @@
 /*   By: edelarbr <edelarbr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 17:26:28 by edelarbr          #+#    #+#             */
-/*   Updated: 2023/08/06 19:18:24 by edelarbr         ###   ########.fr       */
+/*   Updated: 2023/08/07 19:29:28 by edelarbr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,21 +21,15 @@ int	general_memory_init(t_general_memory *general)
 	general->forks = malloc(sizeof(pthread_mutex_t) * general->nb_philo);
 	if (!general->forks)
 		return (printf("Error : Malloc failed\n"), 0);
-	i = - 1;
+	i = -1;
 	while (++i < general->nb_philo)
 		pthread_mutex_init(&general->forks[i], NULL);
-	// i = -1;
-	// while (++i < general->nb_philo)
-	// 	general->forks[i] = 1;
-
-	// for (i = 0; i < general->nb_philo; i++)
-	// 	printf("forks[%d] = %philo\n", i + 1, &general->forks[i]);	
-
 	general->stop = 0;
 	return (1);
 }
 
-int	personnal_memory_init(t_general_memory *general, t_personnal_memory *philo, int i)
+int	personnal_memory_init(t_general_memory *general, t_personnal_memory *philo,
+		int i)
 {
 	philo->id = i + 1;
 	philo->general = general;
@@ -53,7 +47,7 @@ int	personnal_memory_init(t_general_memory *general, t_personnal_memory *philo, 
 
 int	structs_init(t_general_memory *general)
 {
-	int i;
+	int	i;
 
 	general->start_time = -1;
 	if (!general_memory_init(general))

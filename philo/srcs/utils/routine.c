@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   routie.c                                          :+:      :+:    :+:   */
+/*   routine.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: edelarbr <edelarbr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/02 16:35:31 by edelarbr          #+#    #+#             */
-/*   Updated: 2023/08/06 17:56:38 by edelarbr         ###   ########.fr       */
+/*   Created: 2023/08/07 19:24:38 by edelarbr          #+#    #+#             */
+/*   Updated: 2023/08/07 19:26:17 by edelarbr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	*routine(void *arg)
 
 	philo = (t_personnal_memory *)arg;
 	if (philo->id % 2 != 0)
-		ft_usleep(philo->general->tte / 2);
+		ft_usleep(philo->general->time_to_eat / 2);
 	while (1)
 	{
 		philo_take_forks(philo);

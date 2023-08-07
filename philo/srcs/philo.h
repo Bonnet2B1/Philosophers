@@ -6,7 +6,7 @@
 /*   By: edelarbr <edelarbr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 16:59:07 by edelarbr          #+#    #+#             */
-/*   Updated: 2023/08/07 18:27:45 by edelarbr         ###   ########.fr       */
+/*   Updated: 2023/08/07 19:26:44 by edelarbr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,42 +21,40 @@
 
 typedef struct s_general_memory
 {
-	// arguments
 	int							nb_philo;
-	int							ttd;
-	int							tte;
-	int							tts;
+	int							time_to_die;
+	int							time_to_eat;
+	int							time_to_sleep;
 	int							min_meal;
-	// monitoring thread
+
 	pthread_t					monitoring_thread;
-	// signal for stopping threads
+
 	int							stop;
-	// forks on the table
+
 	pthread_mutex_t				*forks;
 	int							*forks_int;
-	// reference time
+
 	int							start_time;
-	// mutexs
+
 	pthread_mutex_t				print_mutex;
 	pthread_mutex_t				operation_mutex;
-	// link to all philosopher personnal memory
+
 	struct s_personnal_memory	*philo;
 }								t_general_memory;
 
 typedef struct s_personnal_memory
 {
-	// philosopher thread
 	pthread_t					thread;
-	// philosopher id
+
 	int							id;
-	// philosopher meal counter
+
 	int							meal;
-	// philosopher last meal time
+
 	int							last_meal;
-	// forks
+
 	pthread_mutex_t				*left_fork;
 	pthread_mutex_t				*right_fork;
-	// link to general memory
+
 	t_general_memory			*general;
 }								t_personnal_memory;
 
