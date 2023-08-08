@@ -6,7 +6,7 @@
 /*   By: edelarbr <edelarbr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 19:57:43 by edelarbr          #+#    #+#             */
-/*   Updated: 2023/08/07 20:07:21 by edelarbr         ###   ########.fr       */
+/*   Updated: 2023/08/08 18:10:47 by edelarbr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	philo_take_forks(t_personnal *philo)
 void	philo_eat(t_personnal *philo)
 {
 	print_message("is eating", philo);
-	ft_usleep(philo->general->time_to_eat);
+	usleep(philo->general->time_to_eat * 1000);
 	pthread_mutex_unlock(philo->left_fork);
 	pthread_mutex_unlock(philo->right_fork);
 	pthread_mutex_lock(&philo->general->operation_mutex);
@@ -35,6 +35,6 @@ void	philo_eat(t_personnal *philo)
 void	philo_sleep_n_think(t_personnal *philo)
 {
 	print_message("is sleeping", philo);
-	ft_usleep(philo->general->time_to_sleep);
+	usleep(philo->general->time_to_sleep * 1000);
 	print_message("is thinking", philo);
 }

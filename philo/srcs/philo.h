@@ -6,7 +6,7 @@
 /*   By: edelarbr <edelarbr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 16:59:07 by edelarbr          #+#    #+#             */
-/*   Updated: 2023/08/07 20:07:31 by edelarbr         ###   ########.fr       */
+/*   Updated: 2023/08/08 18:09:49 by edelarbr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ typedef struct s_general_memory
 
 	pthread_mutex_t				print_mutex;
 	pthread_mutex_t				operation_mutex;
+	pthread_mutex_t				time_mutex;
 
 	struct s_personnal_memory	*philo;
 }								t_general;
@@ -77,7 +78,6 @@ int								structs_init(t_general *general);
 int								get_time(void);
 void							print_message(char *str,
 									t_personnal *philo);
-int								ft_usleep(long int time_in_ms);
 void							philo_take_forks(t_personnal *philo);
 void							philo_eat(t_personnal *philo);
 void							philo_sleep_n_think(t_personnal *philo);

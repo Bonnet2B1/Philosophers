@@ -6,7 +6,7 @@
 /*   By: edelarbr <edelarbr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 17:26:28 by edelarbr          #+#    #+#             */
-/*   Updated: 2023/08/07 20:07:43 by edelarbr         ###   ########.fr       */
+/*   Updated: 2023/08/08 16:22:41 by edelarbr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ int	general_memory_init(t_general *general)
 
 	pthread_mutex_init(&general->print_mutex, NULL);
 	pthread_mutex_init(&general->operation_mutex, NULL);
+	pthread_mutex_init(&general->time_mutex, NULL);
 	general->forks = malloc(sizeof(pthread_mutex_t) * general->nb_philo);
 	if (!general->forks)
 		return (printf("Error : Malloc failed\n"), 0);
@@ -28,8 +29,7 @@ int	general_memory_init(t_general *general)
 	return (1);
 }
 
-int	personnal_memory_init(t_general *general, t_personnal *philo,
-		int i)
+int	personnal_memory_init(t_general *general, t_personnal *philo, int i)
 {
 	philo->id = i + 1;
 	philo->general = general;
