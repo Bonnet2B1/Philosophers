@@ -6,7 +6,7 @@
 /*   By: edelarbr <edelarbr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 16:59:07 by edelarbr          #+#    #+#             */
-/*   Updated: 2023/08/10 17:45:45 by edelarbr         ###   ########.fr       */
+/*   Updated: 2023/08/10 17:53:00 by edelarbr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,10 @@ typedef struct s_general_memory
 	int							a_philo_is_dead;
 
 	pthread_mutex_t				*forks;
-	int							*is_lock;
 
 	int							start_time;
 
 	pthread_mutex_t				print_mutex;
-	pthread_mutex_t				destroy_signal;
 
 	struct s_personnal_memory	*philo;
 	pthread_t					*personnal_monitoring;
@@ -49,7 +47,6 @@ typedef struct s_personnal_memory
 
 	int							meal_counter;
 
-	int							last_meal;
 	int							gonna_die_at;
 
 	pthread_mutex_t				*left_fork;

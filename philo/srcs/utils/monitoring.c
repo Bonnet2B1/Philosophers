@@ -6,7 +6,7 @@
 /*   By: edelarbr <edelarbr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 16:36:47 by edelarbr          #+#    #+#             */
-/*   Updated: 2023/08/10 17:36:42 by edelarbr         ###   ########.fr       */
+/*   Updated: 2023/08/10 17:49:55 by edelarbr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,16 +53,10 @@ int	all_philosophers_ate_enough(t_general *general)
 
 int	monitoring(t_general *general)
 {
-	pthread_mutex_lock(&general->destroy_signal);
 	general->start_time = get_time();
 	while (1)
-	{
 		if (a_philosopher_is_dead(general)
 			|| all_philosophers_ate_enough(general))
-		{
-			pthread_mutex_unlock(&general->destroy_signal);
 			return (1);
-		}
-	}
 	return (0);
 }
