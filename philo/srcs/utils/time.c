@@ -6,7 +6,7 @@
 /*   By: edelarbr <edelarbr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 19:07:33 by edelarbr          #+#    #+#             */
-/*   Updated: 2023/08/08 18:11:22 by edelarbr         ###   ########.fr       */
+/*   Updated: 2023/08/09 17:31:34 by edelarbr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,4 +27,13 @@ int	philo_age(t_personnal *philo)
 	if (philo->general->start_time == -1)
 		return (0);
 	return (get_time() - philo->general->start_time);
+}
+
+void	ft_usleep(int time_in_ms)
+{
+	long int	start_time;
+
+	start_time = get_time();
+	while (get_time() < start_time + time_in_ms)
+		usleep(100);
 }

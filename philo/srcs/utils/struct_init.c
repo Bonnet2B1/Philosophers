@@ -6,7 +6,7 @@
 /*   By: edelarbr <edelarbr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 17:26:28 by edelarbr          #+#    #+#             */
-/*   Updated: 2023/08/08 16:22:41 by edelarbr         ###   ########.fr       */
+/*   Updated: 2023/08/10 17:41:07 by edelarbr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,14 @@ int	general_memory_init(t_general *general)
 	int	i;
 
 	pthread_mutex_init(&general->print_mutex, NULL);
-	pthread_mutex_init(&general->operation_mutex, NULL);
-	pthread_mutex_init(&general->time_mutex, NULL);
+	pthread_mutex_init(&general->destroy_signal, NULL);
 	general->forks = malloc(sizeof(pthread_mutex_t) * general->nb_philo);
 	if (!general->forks)
 		return (printf("Error : Malloc failed\n"), 0);
 	i = -1;
 	while (++i < general->nb_philo)
 		pthread_mutex_init(&general->forks[i], NULL);
-	general->stop = 0;
+	general->a_philo_is_dead = 0;
 	return (1);
 }
 
@@ -35,8 +34,12 @@ int	personnal_memory_init(t_general *general, t_personnal *philo, int i)
 	philo->general = general;
 	philo->meal_counter = 0;
 	philo->last_meal = 0;
+	philo->gonna_die_at = philo->general->time_to_die;
 	if (general->nb_philo == 1)
+	{
 		philo->left_fork = &general->forks[i];
+		philo->right_fork = NULL;
+	}
 	else
 	{
 		philo->left_fork = &general->forks[i];
