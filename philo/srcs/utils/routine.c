@@ -3,37 +3,49 @@
 /*                                                        :::      ::::::::   */
 /*   routine.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: edelarbr <edelarbr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: edelarbr <edelarbr@student.42mulhouse.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 19:24:38 by edelarbr          #+#    #+#             */
-/*   Updated: 2023/08/10 17:37:36 by edelarbr         ###   ########.fr       */
+/*   Updated: 2023/08/13 22:46:36 by edelarbr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo.h"
+
+int	befor_start(t_personnal *philo)
+{
+	while (1)
+	{
+		pthread_mutex_lock(&philo->general->time_mutex);
+		if (philo->general->start_time != -1)
+		{
+			pthread_mutex_unlock(&philo->general->time_mutex);
+			break ;
+		}
+		pthread_mutex_unlock(&philo->general->time_mutex);
+	}
+	if (philo->general->nb_philo == 1)
+	{
+		print_message("has taken a fork", philo);
+		ft_usleep(philo->general->time_to_die, philo->general);
+		return (0);
+	}
+	if (philo->id % 2 != 0)
+		ft_usleep(philo->general->time_to_eat / 2, philo->general);
+	return (1);
+}
 
 void	*routine(void *arg)
 {
 	t_personnal	*philo;
 
 	philo = (t_personnal *)arg;
-	while (philo->general->start_time == -1)
-		;
-	if (philo->general->nb_philo == 1)
-	{
-		print_message("has taken a fork", philo);
-		ft_usleep(philo->general->time_to_die);
+	if (befor_start(philo) == 0)
 		return (NULL);
-	}
-	if (philo->id % 2 != 0)
-		ft_usleep(philo->general->time_to_eat / 10);
-	while (philo->general->a_philo_is_dead == 0)
+	while (stop_checker(philo->general) == 0)
 	{
 		philo_take_forks(philo);
 		philo_eat(philo);
-		if (philo->general->min_meal != -1
-			&& philo->meal_counter >= philo->general->min_meal)
-			return (NULL);
 		philo_sleep_n_think(philo);
 	}
 	return (NULL);
@@ -48,5 +60,9 @@ int	begin_routine(t_general *general)
 		if (pthread_create(&general->philo[i].thread, NULL, routine,
 				&general->philo[i]) != 0)
 			return (printf("Error: pthread_create failed\n"), 0);
+	i = -1;
+	while (++i < general->nb_philo)
+		if (pthread_detach(general->philo[i].thread) != 0)
+			return (printf("Error: pthread_detach failed\n"), 0);
 	return (1);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: edelarbr <edelarbr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: edelarbr <edelarbr@student.42mulhouse.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 18:45:58 by edelarbr          #+#    #+#             */
-/*   Updated: 2023/08/10 17:44:23 by edelarbr         ###   ########.fr       */
+/*   Updated: 2023/08/13 23:12:58 by edelarbr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,8 @@
 
 void	print_message(char *str, t_personnal *philo)
 {
-	if (philo->general->a_philo_is_dead == 1)
+	if (stop_checker(philo->general) == 1)
 		return ;
-	pthread_mutex_lock(&philo->general->print_mutex);
-	printf("%d %d %s\n", get_time() - philo->general->start_time, philo->id,
+	printf("%d %d %s\n", philo_age(philo), philo->id,
 		str);
-	pthread_mutex_unlock(&philo->general->print_mutex);
 }

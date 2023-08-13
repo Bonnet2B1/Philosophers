@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   monitoring.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: edelarbr <edelarbr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: edelarbr <edelarbr@student.42mulhouse.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 16:36:47 by edelarbr          #+#    #+#             */
-/*   Updated: 2023/08/10 17:49:55 by edelarbr         ###   ########.fr       */
+/*   Updated: 2023/08/14 01:05:20 by edelarbr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,19 @@
 
 int	m_i_dead(t_personnal *philo)
 {
+	pthread_mutex_lock(&philo->gonna_die_at_mutex);
 	if (philo_age(philo) >= philo->gonna_die_at)
 	{
+		pthread_mutex_unlock(&philo->gonna_die_at_mutex);
+		pthread_mutex_lock(&philo->general->stop_mutex);
+		philo->general->stop = 1;
+		pthread_mutex_unlock(&philo->general->stop_mutex);
 		pthread_mutex_lock(&philo->general->print_mutex);
-		philo->general->a_philo_is_dead = 1;
 		printf("%d %d died\n", get_time() - philo->general->start_time,
 			philo->id);
 		return (1);
 	}
+	pthread_mutex_unlock(&philo->gonna_die_at_mutex);
 	return (0);
 }
 
@@ -48,12 +53,17 @@ int	all_philosophers_ate_enough(t_general *general)
 	while (++i < general->nb_philo)
 		if (general->philo[i].meal_counter < general->min_meal)
 			return (0);
+	pthread_mutex_lock(&general->stop_mutex);
+	general->stop = 1;
+	pthread_mutex_unlock(&general->stop_mutex);
 	return (1);
 }
 
 int	monitoring(t_general *general)
 {
+	pthread_mutex_lock(&general->time_mutex);
 	general->start_time = get_time();
+	pthread_mutex_unlock(&general->time_mutex);
 	while (1)
 		if (a_philosopher_is_dead(general)
 			|| all_philosophers_ate_enough(general))

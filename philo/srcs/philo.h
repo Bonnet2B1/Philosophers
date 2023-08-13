@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: edelarbr <edelarbr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: edelarbr <edelarbr@student.42mulhouse.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 16:59:07 by edelarbr          #+#    #+#             */
-/*   Updated: 2023/08/10 17:53:00 by edelarbr         ###   ########.fr       */
+/*   Updated: 2023/08/14 00:46:26 by edelarbr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,15 @@ typedef struct s_general_memory
 	int							time_to_sleep;
 	int							min_meal;
 
-	int							a_philo_is_dead;
+	int							stop;
 
 	pthread_mutex_t				*forks;
 
 	int							start_time;
 
 	pthread_mutex_t				print_mutex;
+	pthread_mutex_t				stop_mutex;
+	pthread_mutex_t				time_mutex;
 
 	struct s_personnal_memory	*philo;
 	pthread_t					*personnal_monitoring;
@@ -42,12 +44,15 @@ typedef struct s_general_memory
 typedef struct s_personnal_memory
 {
 	pthread_t					thread;
+	pthread_t					death_monitoring;
 
 	int							id;
 
 	int							meal_counter;
 
 	int							gonna_die_at;
+
+	pthread_mutex_t				gonna_die_at_mutex;
 
 	pthread_mutex_t				*left_fork;
 	pthread_mutex_t				*right_fork;
@@ -83,6 +88,7 @@ int								monitoring(t_general *general);
 int								begin_routine(t_general *general);
 int								destroy_simulation(t_general *general);
 int								philo_age(t_personnal *philo);
-void							ft_usleep(int time_in_ms);
+void							ft_usleep(int time_in_ms, t_general *general);
+int								stop_checker(t_general *general);
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   struct_init.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: edelarbr <edelarbr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: edelarbr <edelarbr@student.42mulhouse.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 17:26:28 by edelarbr          #+#    #+#             */
-/*   Updated: 2023/08/10 17:53:22 by edelarbr         ###   ########.fr       */
+/*   Updated: 2023/08/13 20:47:22 by edelarbr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,18 +17,21 @@ int	general_memory_init(t_general *general)
 	int	i;
 
 	pthread_mutex_init(&general->print_mutex, NULL);
+	pthread_mutex_init(&general->time_mutex, NULL);
+	pthread_mutex_init(&general->stop_mutex, NULL);
 	general->forks = malloc(sizeof(pthread_mutex_t) * general->nb_philo);
 	if (!general->forks)
 		return (printf("Error : Malloc failed\n"), 0);
 	i = -1;
 	while (++i < general->nb_philo)
 		pthread_mutex_init(&general->forks[i], NULL);
-	general->a_philo_is_dead = 0;
+	general->stop = 0;
 	return (1);
 }
 
 int	personnal_memory_init(t_general *general, t_personnal *philo, int i)
 {
+	pthread_mutex_init(&philo->gonna_die_at_mutex, NULL);
 	philo->id = i + 1;
 	philo->general = general;
 	philo->meal_counter = 0;

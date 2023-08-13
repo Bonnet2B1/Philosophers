@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   time.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: edelarbr <edelarbr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: edelarbr <edelarbr@student.42mulhouse.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 19:07:33 by edelarbr          #+#    #+#             */
-/*   Updated: 2023/08/09 17:31:34 by edelarbr         ###   ########.fr       */
+/*   Updated: 2023/08/13 21:39:28 by edelarbr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,18 +22,18 @@ int	get_time(void)
 
 int	philo_age(t_personnal *philo)
 {
-	if (!philo->general)
-		return (0);
 	if (philo->general->start_time == -1)
 		return (0);
 	return (get_time() - philo->general->start_time);
 }
 
-void	ft_usleep(int time_in_ms)
+void	ft_usleep(int time_in_ms, t_general *general)
 {
 	long int	start_time;
 
+	if (stop_checker(general) == 1)
+		return ;
 	start_time = get_time();
 	while (get_time() < start_time + time_in_ms)
-		usleep(100);
+		usleep(50);
 }
