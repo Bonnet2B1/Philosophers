@@ -6,18 +6,29 @@
 #    By: edelarbr <edelarbr@student.42mulhouse.f    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/22 16:59:43 by edelarbr          #+#    #+#              #
-#    Updated: 2023/08/13 16:35:58 by edelarbr         ###   ########.fr        #
+#    Updated: 2023/08/15 16:20:22 by edelarbr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		:=	philo
 
-# NAME_BONUS	:=	pipex_bonus
-
 # ------------------------------ Sources -----------------------------
 
-SRCS 		:=	srcs/*.c\
-				srcs/*/*.c
+SRCS		:=	srcs/philo.c \
+				srcs/utils/print.c \
+				srcs/utils/parser.c \
+				srcs/utils/destroy_simulation.c \
+				srcs/utils/struct_init.c \
+				srcs/utils/stop_checker.c \
+				srcs/utils/time.c \
+				srcs/utils/routine.c \
+				srcs/utils/monitoring.c \
+				srcs/utils/philosopers_actions.c \
+				srcs/lib/ft_isdigit.c \
+				srcs/lib/ft_strlen.c \
+				srcs/lib/ft_freeall.c \
+				srcs/lib/ft_putstr.c \
+				srcs/lib/ft_atoi.c \
 
 OBJS		:=	$(SRCS:.c=.o)
 
@@ -27,7 +38,7 @@ OBJS		:=	$(SRCS:.c=.o)
 # ------------------------------ Flags -------------------------------
 
 CC			:=	gcc
-FLAGS		:=	-Wall -Wextra -Werror -g3
+FLAGS		:=	-Wall -Wextra -Werror
 
 # ------------------------------ Colors ------------------------------
 
@@ -40,17 +51,17 @@ YELLOW		:=	\033[1;33m
 BLUE		:=	\033[1;34m
 CYAN 		:=	\033[1;36m
 
-# ------------------------------ Programme ---------------------------
+# ------------------------------ Compilation -------------------------
 
 
 all:			$(NAME)
 
-$(NAME):
+$(NAME):		$(OBJS)
 				@ echo "$(GREEN)Compilation $(CLR_RMV)of $(YELLOW)$(NAME) $(CLR_RMV)..."
 				@ $(CC) $(FLAGS) -o $(NAME) $(SRCS)
 				@ echo "$(GREEN)$(NAME) created $(CLR_RMV)✔️"
 
-# --  ---------------------------- Rules -----------------------------
+# -------------------------------- Rules -----------------------------
 
 clean:
 				@ $(RM) $(OBJS)

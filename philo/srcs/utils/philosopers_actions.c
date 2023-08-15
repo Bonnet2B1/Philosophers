@@ -6,7 +6,7 @@
 /*   By: edelarbr <edelarbr@student.42mulhouse.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 19:57:43 by edelarbr          #+#    #+#             */
-/*   Updated: 2023/08/14 01:11:51 by edelarbr         ###   ########.fr       */
+/*   Updated: 2023/08/14 19:55:42 by edelarbr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,9 @@ void	philo_eat(t_personnal *philo)
 	pthread_mutex_unlock(&philo->gonna_die_at_mutex);
 	pthread_mutex_unlock(philo->left_fork);
 	pthread_mutex_unlock(philo->right_fork);
+	pthread_mutex_lock(&philo->meal_counter_mutex);
 	philo->meal_counter++;
+	pthread_mutex_unlock(&philo->meal_counter_mutex);
 }
 
 void	philo_sleep_n_think(t_personnal *philo)
