@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   time.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: edelarbr <edelarbr@student.42mulhouse.f    +#+  +:+       +#+        */
+/*   By: edelarbr <edelarbr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 19:07:33 by edelarbr          #+#    #+#             */
-/*   Updated: 2023/08/13 21:39:28 by edelarbr         ###   ########.fr       */
+/*   Updated: 2023/08/14 01:42:26 by edelarbr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,6 @@ int	get_time(void)
 
 int	philo_age(t_personnal *philo)
 {
-	if (philo->general->start_time == -1)
-		return (0);
 	return (get_time() - philo->general->start_time);
 }
 

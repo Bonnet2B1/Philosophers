@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philosopers_actions.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: edelarbr <edelarbr@student.42mulhouse.f    +#+  +:+       +#+        */
+/*   By: edelarbr <edelarbr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 19:57:43 by edelarbr          #+#    #+#             */
-/*   Updated: 2023/08/14 01:11:51 by edelarbr         ###   ########.fr       */
+/*   Updated: 2023/08/14 01:39:01 by edelarbr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	philo_eat(t_personnal *philo)
 {
 	print_message("is eating", philo);
 	pthread_mutex_lock(&philo->gonna_die_at_mutex);
-	philo->gonna_die_at = philo_age(philo) + philo->general->time_to_die;
+	philo->gonna_die_at = 2147483647;
 	pthread_mutex_unlock(&philo->gonna_die_at_mutex);
 	ft_usleep(philo->general->time_to_eat, philo->general);
 	pthread_mutex_lock(&philo->gonna_die_at_mutex);
