@@ -6,7 +6,7 @@
 /*   By: edelarbr <edelarbr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 19:07:33 by edelarbr          #+#    #+#             */
-/*   Updated: 2023/08/14 01:42:26 by edelarbr         ###   ########.fr       */
+/*   Updated: 2023/08/15 20:46:42 by edelarbr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,5 +33,9 @@ void	ft_usleep(int time_in_ms, t_general *general)
 		return ;
 	start_time = get_time();
 	while (get_time() < start_time + time_in_ms)
-		usleep(50);
+	{
+		if (stop_checker(general) == 1)
+			return ;
+		usleep(500);
+	}
 }

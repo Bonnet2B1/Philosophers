@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: edelarbr <edelarbr@student.42mulhouse.f    +#+  +:+       +#+         #
+#    By: edelarbr <edelarbr@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/22 16:59:43 by edelarbr          #+#    #+#              #
-#    Updated: 2023/08/15 16:20:22 by edelarbr         ###   ########.fr        #
+#    Updated: 2023/08/15 20:54:17 by edelarbr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -59,7 +59,7 @@ all:			$(NAME)
 $(NAME):		$(OBJS)
 				@ echo "$(GREEN)Compilation $(CLR_RMV)of $(YELLOW)$(NAME) $(CLR_RMV)..."
 				@ $(CC) $(FLAGS) -o $(NAME) $(SRCS)
-				@ echo "$(GREEN)$(NAME) created $(CLR_RMV)✔️"
+				@ echo "$(YELLOW)$(NAME) $(GREEN)created $(CLR_RMV)✔️"
 
 # -------------------------------- Rules -----------------------------
 
