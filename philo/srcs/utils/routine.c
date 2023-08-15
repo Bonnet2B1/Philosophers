@@ -6,7 +6,7 @@
 /*   By: edelarbr <edelarbr@student.42mulhouse.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 19:24:38 by edelarbr          #+#    #+#             */
-/*   Updated: 2023/08/14 22:30:51 by edelarbr         ###   ########.fr       */
+/*   Updated: 2023/08/15 20:16:23 by edelarbr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ int	befor_start(t_personnal *philo)
 			break ;
 		}
 		pthread_mutex_unlock(&philo->general->time_mutex);
+		usleep(100);
 	}
 	if (philo->general->nb_philo == 1)
 	{
