@@ -6,7 +6,7 @@
 /*   By: edelarbr <edelarbr@student.42mulhouse.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 19:24:38 by edelarbr          #+#    #+#             */
-/*   Updated: 2023/08/13 22:46:36 by edelarbr         ###   ########.fr       */
+/*   Updated: 2023/08/14 22:30:51 by edelarbr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,14 +40,18 @@ void	*routine(void *arg)
 	t_personnal	*philo;
 
 	philo = (t_personnal *)arg;
-	if (befor_start(philo) == 0)
-		return (NULL);
-	while (stop_checker(philo->general) == 0)
+	if (befor_start(philo) != 0)
 	{
-		philo_take_forks(philo);
-		philo_eat(philo);
-		philo_sleep_n_think(philo);
+		while (stop_checker(philo->general) == 0)
+		{
+			philo_take_forks(philo);
+			philo_eat(philo);
+			philo_sleep_n_think(philo);
+		}
 	}
+	pthread_mutex_lock(&philo->general->nb_philo_who_has_finished_mutex);
+	philo->general->nb_philo_who_has_finished++;
+	pthread_mutex_unlock(&philo->general->nb_philo_who_has_finished_mutex);
 	return (NULL);
 }
 
@@ -60,9 +64,5 @@ int	begin_routine(t_general *general)
 		if (pthread_create(&general->philo[i].thread, NULL, routine,
 				&general->philo[i]) != 0)
 			return (printf("Error: pthread_create failed\n"), 0);
-	i = -1;
-	while (++i < general->nb_philo)
-		if (pthread_detach(general->philo[i].thread) != 0)
-			return (printf("Error: pthread_detach failed\n"), 0);
 	return (1);
 }

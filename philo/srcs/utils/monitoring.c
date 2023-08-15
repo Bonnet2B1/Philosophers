@@ -6,7 +6,7 @@
 /*   By: edelarbr <edelarbr@student.42mulhouse.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 16:36:47 by edelarbr          #+#    #+#             */
-/*   Updated: 2023/08/14 01:05:20 by edelarbr         ###   ########.fr       */
+/*   Updated: 2023/08/14 22:14:31 by edelarbr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,15 @@ int	all_philosophers_ate_enough(t_general *general)
 	if (general->min_meal == -1)
 		return (0);
 	while (++i < general->nb_philo)
+	{
+		pthread_mutex_lock(&general->philo[i].meal_counter_mutex);
 		if (general->philo[i].meal_counter < general->min_meal)
+		{
+			pthread_mutex_unlock(&general->philo[i].meal_counter_mutex);
 			return (0);
+		}
+		pthread_mutex_unlock(&general->philo[i].meal_counter_mutex);
+	}
 	pthread_mutex_lock(&general->stop_mutex);
 	general->stop = 1;
 	pthread_mutex_unlock(&general->stop_mutex);
@@ -61,12 +68,28 @@ int	all_philosophers_ate_enough(t_general *general)
 
 int	monitoring(t_general *general)
 {
+	int	i;
+
 	pthread_mutex_lock(&general->time_mutex);
 	general->start_time = get_time();
 	pthread_mutex_unlock(&general->time_mutex);
 	while (1)
 		if (a_philosopher_is_dead(general)
 			|| all_philosophers_ate_enough(general))
-			return (1);
+			break ;
+	while (1)
+	{
+		pthread_mutex_lock(&general->nb_philo_who_has_finished_mutex);
+		if (general->nb_philo_who_has_finished == general->nb_philo)
+		{
+			pthread_mutex_unlock(&general->nb_philo_who_has_finished_mutex);
+			break ;
+		}
+		pthread_mutex_unlock(&general->nb_philo_who_has_finished_mutex);
+	}
+	i = -1;
+	while (++i < general->nb_philo)
+		if (pthread_join(general->philo[i].thread, NULL) != 0)
+			return (printf("Error: pthread_join failed\n"), 0);
 	return (0);
 }
